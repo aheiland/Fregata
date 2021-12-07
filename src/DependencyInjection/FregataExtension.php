@@ -4,9 +4,8 @@ namespace Fregata\DependencyInjection;
 
 use Fregata\Migration\Migration;
 use Fregata\Migration\MigrationContext;
-use Fregata\Migration\MigrationRegistry;
 use Fregata\Migration\Migrator\MigratorInterface;
-use hanneskod\classtools\Iterator\ClassIterator;
+use Fregata\Untility\ClassIterator;
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -163,19 +162,18 @@ class FregataExtension extends Extension
     protected function findMigratorsInDirectory(string $path): array
     {
         $finder = new Finder();
-        $iterator = new ClassIterator($finder->in($path));
-        $iterator->enableAutoloading();
 
-        $iterator = $iterator->type(MigratorInterface::class);
-
-        /** @var ClassIterator $iterator */
-        $iterator = $iterator->where('isInstantiable', true);
+        $iter = new ClassIterator($finder->in($path));
+        $iter->autoLoad();
 
         $classes = [];
-
-        /** @var \ReflectionClass $class */
-        foreach ($iterator as $class) {
-            $classes[] = $class->getName();
+        foreach ($iter as $reflectionClass) {
+            if (
+                $reflectionClass->implementsInterface(MigratorInterface::class) &&
+                $reflectionClass->isInstantiable()
+            ) {
+                $classes[] = $reflectionClass->getName();
+            }
         }
 
         return $classes;
