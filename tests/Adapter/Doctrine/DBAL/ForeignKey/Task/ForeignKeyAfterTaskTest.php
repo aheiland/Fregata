@@ -83,11 +83,11 @@ class ForeignKeyAfterTaskTest extends AbstractDbalTestCase
         $task->execute();
 
         // Check referenced table
-        $columns = $this->connection->getSchemaManager()->listTableColumns('target_referenced');
+        $columns = $this->connection->createSchemaManager()->listTableColumns('target_referenced');
         self::assertCount(1, $columns);
 
         // Check referencing table
-        $columns = $this->connection->getSchemaManager()->listTableColumns('target_referencing');
+        $columns = $this->connection->createSchemaManager()->listTableColumns('target_referencing');
         self::assertCount(1, $columns);
 
         $originalColumn = $columns['fk'];
@@ -97,16 +97,16 @@ class ForeignKeyAfterTaskTest extends AbstractDbalTestCase
         $referencedData = $this->connection->createQueryBuilder()
             ->select('*')
             ->from('target_referenced')
-            ->execute()
-            ->fetchAll(FetchMode::COLUMN);
-        self::assertSame(['1', '2', '3'], $referencedData);
+            ->executeQuery()
+            ->fetchFirstColumn();
+        self::assertSame([1, 2, 3], $referencedData);
 
         $referencingData = $this->connection->createQueryBuilder()
             ->select('*')
             ->from('target_referencing')
             ->orderBy('fk', 'DESC')
-            ->execute()
-            ->fetchAll(FetchMode::COLUMN);
-        self::assertSame(['3', '2', '2', '1'], $referencingData);
+            ->executeQuery()
+            ->fetchFirstColumn();
+        self::assertSame([3, 2, 2, 1], $referencingData);
     }
 }
