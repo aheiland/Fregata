@@ -8,6 +8,7 @@ use LogicException;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Finder\Finder;
+use Traversable;
 
 /** @implements \IteratorAggregate<string, ReflectionClass> */
 class ClassIterator implements \IteratorAggregate
@@ -16,24 +17,25 @@ class ClassIterator implements \IteratorAggregate
 
     public function __construct(Finder $finder)
     {
-        $this->classMap = [];
+        $classMap = [];
         /** @var \Symfony\Component\Finder\SplFileInfo $fileInfo */
         foreach ($finder as $fileInfo) {
             $fileInfo = new SplFileInfo($fileInfo);
             try {
                 foreach ($fileInfo->getDefinitionNames() as $name) {
-                        $this->classMap[$name] = $fileInfo;
+                        $classMap[$name] = $fileInfo;
                 }
             } catch (ReaderException) {
                 //caused by none php files - nothing to handle
             }
         }
+        $this->classMap = $classMap;
     }
 
     /**
-     * @return iterable<string, ReflectionClass>
+     * @return Traversable<string, ReflectionClass>
      */
-    public function getIterator(): iterable
+    public function getIterator(): Traversable
     {
         foreach ($this->classMap as $name => $fileInfo) {
             try {

@@ -15,7 +15,7 @@ class SplFileInfo extends FinderSplFileInfo
 {
     public function __construct(FinderSplFileInfo $decorated)
     {
-        parent::__construct($decorated->getFilename(), $decorated->getRelativePath(), $decorated->getRelativePathname());
+        parent::__construct($decorated->getPathname(),$decorated->getRelativePath(),$decorated->getRelativePathname());
     }
 
     /** @return string[] */
