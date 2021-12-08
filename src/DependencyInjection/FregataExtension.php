@@ -5,7 +5,7 @@ namespace Fregata\DependencyInjection;
 use Fregata\Migration\Migration;
 use Fregata\Migration\MigrationContext;
 use Fregata\Migration\Migrator\MigratorInterface;
-use Fregata\Untility\ClassIterator;
+use Fregata\Utility\ClassIterator;
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

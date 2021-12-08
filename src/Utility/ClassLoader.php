@@ -1,6 +1,6 @@
 <?php
 
-namespace Fregata\Untility;
+namespace Fregata\Utility;
 
 class ClassLoader
 {

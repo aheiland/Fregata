@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Fregata\Untility;
+namespace Fregata\Utility;
 
 use RuntimeException;
 

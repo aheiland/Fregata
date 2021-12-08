@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Fregata\Untility;
+namespace Fregata\Utility;
 
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Interface_;
@@ -19,24 +19,19 @@ class SplFileInfo extends FinderSplFileInfo
     }
 
     /** @return string[] */
-    private function getDefinitions(array $stmts, string $namespace = ''): array
+    private function getDefinitions(array $stmts, Name $namespace): array
     {
         $names = [];
 
         foreach ($stmts as $stmt) {
             if ($stmt instanceof Namespace_) {
-                array_push($names, ...($this->getDefinitions($stmt->stmts, (string)$stmt->name)));
+                array_push($names, ...($this->getDefinitions($stmt->stmts, new Name((string)$stmt->name))));
             } elseif ($stmt instanceof Class_ || $stmt instanceof Interface_ || $stmt instanceof Trait_) {
-                $names[] = $this->normalize("{$namespace}\\{$stmt->name}");
+                $names[] = (new Name("{$namespace}\\{$stmt->name}"))->normalized;
             }
         }
 
         return $names;
-    }
-
-    private function normalize(string $name): string
-    {
-        return preg_replace('/^\\\*/', '', $name);
     }
 
     /** ®return string[] */
@@ -45,6 +40,6 @@ class SplFileInfo extends FinderSplFileInfo
         $parserFactory = new ParserFactory();
         $parser = $parserFactory->create(ParserFactory::PREFER_PHP5);
         $stmts = $parser->parse($this->getContents());
-        return $this->getDefinitions($stmts);
+        return $this->getDefinitions($stmts, new Name(''));
     }
 }
