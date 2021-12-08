@@ -1,8 +1,8 @@
 # Fregata - PHP database migrator
 
-![](https://github.com/aheiland/fregata-symfony-bundle/workflows/Unit%20Test%20Suite/badge.svg)
-[![Latest Stable Version](https://poser.pugx.org/aheiland/fregata-symfony-bundle/v)](//packagist.org/packages/aheiland/fregata-symfony-bundle)
-[![License](https://poser.pugx.org/aheiland/fregata-symfony-bundle/license)](//packagist.org/packages/aheiland/fregata-symfony-bundle)
+![](https://github.com/check24-profis/fregata-symfony-bundle/workflows/Unit%20Test%20Suite/badge.svg)
+[![Latest Stable Version](https://poser.pugx.org/check24-profis/fregata-symfony-bundle/v)](//packagist.org/packages/check24-profis/fregata-symfony-bundle)
+[![License](https://poser.pugx.org/check24-profis/fregata-symfony-bundle/license)](//packagist.org/packages/check24-profis/fregata-symfony-bundle)
 
 **Fregata** is a data migration framework. You can use it to migrate any kind of data, but it has features to help you
 migrate between different DBMS or database structures.
@@ -63,7 +63,7 @@ Here are some example use cases (from experience):
 
 Install with Composer:
 ```shell
-composer require aheiland/fregata-symfony-bundle
+composer require check24-profis/fregata-symfony-bundle
 ```
 
 ## Configuration

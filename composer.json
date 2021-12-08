@@ -1,5 +1,5 @@
 {
-    "name": "aheiland/fregata-symfony-bundle",
+    "name": "check24-profis/fregata-symfony-bundle",
     "description": "Database migration framework allowing data migration between different DBMS or database structures. Bundled for Symfony.",
     "type": "framework",
     "keywords": [
@@ -23,16 +23,16 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "doctrine/dbal": "^3.0",
-        "symfony/console": "^5.0",
-        "symfony/yaml": "^5.0",
-        "symfony/config": "^5.0",
-        "symfony/dependency-injection": "^5.0",
-        "symfony/http-kernel": "^5.0",
-        "hanneskod/classtools": "^1.2",
+        "symfony/console": "^6.0",
+        "symfony/yaml": "^6.0",
+        "symfony/config": "^6.0",
+        "symfony/dependency-injection": "^6.0",
+        "symfony/http-kernel": "^6.0",
         "marcj/topsort": "^2.0",
-        "symfony/string": "^5.0"
+        "symfony/string": "^6.0",
+        "symfony/finder": "^6.0"
     },
     "autoload": {
         "psr-4": {

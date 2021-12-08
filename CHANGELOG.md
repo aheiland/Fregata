@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2021-12-08
+### Changed
+- Rise to Symfony 6 and php 8.1
+
+## [2.0.0] - 2021-10-21
+### Changed
+- Bundling for Symfony and use of php8.0
+
 ## [1.0.3] - 2021-05-24
 ### Fixed
  - Added missing `CopyColumnHelper` service definition
@@ -67,6 +75,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - Migrator system with interface and abstract class
 
 [Unreleased]: https://github.com/AymDev/Fregata/compare/v1.0.3...HEAD
+[3.0.0]: https://github.com/check24-profis/fregata-symfony-bundle/compare/x2.0.0...v3.0.0
+[2.0.0]: https://github.com/check24-profis/fregata-symfony-bundle/compare/1.0.x...v2.0.0
 [1.0.3]: https://github.com/AymDev/Fregata/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/AymDev/Fregata/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/AymDev/Fregata/compare/v1.0.0...v1.0.1
