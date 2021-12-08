@@ -20,7 +20,11 @@ class ClassIterator implements \IteratorAggregate
         foreach ($finder as $fileInfo) {
             $fileInfo = new SplFileInfo($fileInfo);
             foreach ($fileInfo->getDefinitionNames() as $name) {
-                $this->classMap[$name] = $fileInfo;
+                try {
+                    $this->classMap[$name] = $fileInfo;
+                } catch (ReaderException) {
+                    //caused by none php files - nothing to handle
+                }
             }
         }
     }

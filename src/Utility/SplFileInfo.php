@@ -39,7 +39,11 @@ class SplFileInfo extends FinderSplFileInfo
     {
         $parserFactory = new ParserFactory();
         $parser = $parserFactory->create(ParserFactory::PREFER_PHP5);
-        $stmts = $parser->parse($this->getContents());
+        try {
+            $stmts = $parser->parse($this->getContents());
+        } catch (\RuntimeException $r) {
+            throw new ReaderException($r->getMessage(),$r->getCode(), $r);
+        }
         return $this->getDefinitions($stmts, new Name(''));
     }
 }
