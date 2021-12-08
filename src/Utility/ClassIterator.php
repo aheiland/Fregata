@@ -16,6 +16,7 @@ class ClassIterator implements \IteratorAggregate
 
     public function __construct(Finder $finder)
     {
+        $this->classMap = [];
         /** @var \Symfony\Component\Finder\SplFileInfo $fileInfo */
         foreach ($finder as $fileInfo) {
             $fileInfo = new SplFileInfo($fileInfo);
