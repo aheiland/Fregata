@@ -13,21 +13,17 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MigrationShowCommand extends Command
 {
-    protected static $defaultName = 'fregata:migration:show';
-    private MigrationRegistry $migrationRegistry;
-    private CommandHelper $commandHelper;
-
-    public function __construct(MigrationRegistry $migrationRegistry, CommandHelper $commandHelper)
-    {
-        $this->migrationRegistry = $migrationRegistry;
-        $this->commandHelper = $commandHelper;
-
-        parent::__construct(self::$defaultName);
+    public function __construct(
+        private readonly MigrationRegistry $migrationRegistry,
+        private readonly CommandHelper $commandHelper
+    ) {
+        parent::__construct();
     }
 
-    protected function configure()
+    public function configure(): void
     {
         $this
+            ->setName('fregata:migration:show')
             ->setDescription('List all registered migrators sorted for a given migrations.')
             ->setHelp('List migrators of a migration.')
             ->addArgument(
@@ -44,7 +40,7 @@ class MigrationShowCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
