@@ -16,33 +16,30 @@ class MigrationExecuteCommand extends Command
 {
     /**
      * \33[2K erases the current line
-     * \r moves the cursor the begining of the line
+     * \r moves the cursor the beginning of the line
      */
     private const LINE_ERASER = "\33[2K\r";
-    protected static $defaultName = 'fregata:migration:execute';
-    private MigrationRegistry $migrationRegistry;
 
-    public function __construct(MigrationRegistry $migrationRegistry)
-    {
-        $this->migrationRegistry = $migrationRegistry;
-
-        parent::__construct(self::$defaultName);
+    public function __construct(
+        private readonly MigrationRegistry $migrationRegistry
+    ) {
+        parent::__construct();
     }
 
-    protected function configure()
+    public function configure(): void
     {
         $this
+            ->setName('fregata:migration:execute')
             ->setDescription('Execute a migration.')
             ->setHelp('Execute a migration.')
             ->addArgument(
                 'migration',
                 InputArgument::REQUIRED,
                 'The name of the migration.'
-            )
-        ;
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $isInteractive = $input->hasOption('no-interaction') && false === $input->getOption('no-interaction');
         $io = new SymfonyStyle($input, $output);
@@ -145,13 +142,29 @@ class MigrationExecuteCommand extends Command
         int $migratorIndex
     ): void {
         $io->title(sprintf('%d - Executing "%s" [%d items] :', $migratorIndex, get_class($migrator), $itemCount));
-        $io->progressStart($itemCount);
+        $progressBar = $io->createProgressBar($itemCount);
+        $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% [Remaining: %formattedRemaining%]');
+        $progressBar->setEmptyBarCharacter('░');
+        $progressBar->setProgressCharacter('');
+        $progressBar->setBarCharacter('▓');
+
+        $progressBar->setMessage('-', 'formattedRemaining');
 
         foreach ($migrator->getExecutor()->execute($migrator->getPuller(), $migrator->getPusher()) as $pushedItemCount) {
-            $io->progressAdvance($pushedItemCount);
+            $progressBar->advance($pushedItemCount);
+
+            $remaining = $progressBar->getRemaining();
+            $remainingMinutes = floor($remaining / 60);
+            $remainingSeconds = $remaining - ($remainingMinutes * 60);
+            $formattedRemaining = sprintf('%s:%s min',
+                str_pad($remainingMinutes, 2, '0', STR_PAD_LEFT),
+                str_pad($remainingSeconds, 2, '0', STR_PAD_LEFT)
+            );
+            $progressBar->setMessage($formattedRemaining, 'formattedRemaining');
         }
 
-        $io->progressFinish();
+        $progressBar->finish();
+        $io->newLine(2);
     }
 
     /**

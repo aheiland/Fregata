@@ -12,22 +12,18 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MigrationListCommand extends Command
 {
-    protected static $defaultName = 'fregata:migration:list';
-    private MigrationRegistry $migrationRegistry;
-    private CommandHelper $commandHelper;
-
-    public function __construct(MigrationRegistry $migrationRegistry, CommandHelper $commandHelper)
-    {
-        $this->migrationRegistry = $migrationRegistry;
-        $this->commandHelper = $commandHelper;
-
-        parent::__construct(self::$defaultName);
+    public function __construct(
+        private readonly MigrationRegistry $migrationRegistry,
+        private readonly CommandHelper $commandHelper
+    ) {
+        parent::__construct();
     }
 
-    protected function configure()
+    public function configure(): void
     {
         $this
-            ->setDescription('List all registered migrations with additional informations.')
+            ->setName('fregata:migration:list')
+            ->setDescription('List all registered migrations with additional information.')
             ->setHelp('List all registered migrations.')
             ->addOption(
                 'with-migrators',
@@ -40,11 +36,10 @@ class MigrationListCommand extends Command
                 't',
                 InputOption::VALUE_NONE,
                 'Lists the before and after tasks associated with each migration.'
-            )
-        ;
+            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
